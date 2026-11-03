@@ -10,7 +10,9 @@ public class App
     public static void main(String[] args)
     {
         // Connect to MongoDB
-        MongoClient mongoClient = new MongoClient("localhost", 27000);
+        String host = System.getenv().getOrDefault("MONGO_HOST", "mongo-dbserver");
+        int port = Integer.parseInt(System.getenv().getOrDefault("MONGO_PORT", "27017"));
+        MongoClient mongoClient = new MongoClient(host, port);
         // Get a database - will create when we use it
         MongoDatabase database = mongoClient.getDatabase("mydb");
         // Get a collection from the database
