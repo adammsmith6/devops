@@ -84,15 +84,16 @@ public class App
 //        // Display results
 //        a.displayEmployee(emp);
 //
-//        // Print Salaries
-//        ArrayList<Employee> employees = a.getSalariesByRole("Engineer");
-//        a.printSalaries(employees);
+//
 
         // Extract employee salary information
         ArrayList<Employee> employees = a.getAllSalaries();
 
         // Test the size of the returned data - should be 240124
         System.out.println(employees.size());
+
+        // Print Salaries
+        a.printSalaries(employees);
 
         // Disconnect from database
         a.disconnect();
@@ -202,23 +203,22 @@ public class App
     }
 
     /**
-     * Prints a list of employees and their salaries
-     * @param employees The list of employees to print
+     * Prints a list of employees
+     * @param employees The list of employees to print.
      */
 
     public void printSalaries(ArrayList<Employee> employees)
     {
-        if (employees == null)
-        {
-            System.out.println("No employees");
-            return;
-        }
+
+        // Print header
         System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp No", "First Name", "Last Name", "Salary"));
+
         for (Employee emp : employees)
         {
-            if (emp == null)
-                continue;
-            System.out.println(String.format("%-10s %-15s %-20s %-8s" ,emp.emp_no, emp.first_name, emp.last_name, emp.salary));
+            String emp_string =
+                    String.format("%-10s %-15s %-20s %-8s",
+                            emp.emp_no, emp.first_name, emp.last_name, emp.salary);
+            System.out.println(emp_string);
         }
     }
 
