@@ -195,7 +195,7 @@ public class App
     }
 
     /**
-     * Prints a list of eployees and their salaries
+     * Prints a list of employees and their salaries
      * @param employees The list of employees to print
      */
 
