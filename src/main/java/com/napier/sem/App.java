@@ -79,21 +79,20 @@ public class App
         // Connect to database
         a.connect();
 
-//        // Get Employee
-//        Employee emp = a.getEmployee(255530);
-//        // Display results
-//        a.displayEmployee(emp);
+        // Get Employee
+        Employee emp = a.getEmployee(255530);
+
+        // Display results
+        a.displayEmployee(emp);
+
+//        // Extract employee salary information
+//        ArrayList<Employee> employees = a.getAllSalaries();
 //
+//        // Test the size of the returned data - should be 240124
+//        System.out.println(employees.size());
 //
-
-        // Extract employee salary information
-        ArrayList<Employee> employees = a.getAllSalaries();
-
-        // Test the size of the returned data - should be 240124
-        System.out.println(employees.size());
-
-        // Print Salaries
-        a.printSalaries(employees);
+//        // Print Salaries
+//        a.printSalaries(employees);
 
         // Disconnect from database
         a.disconnect();
@@ -109,7 +108,7 @@ public class App
             String strSelect =
                     "SELECT e.emp_no, e.first_name, e.last_name,  "
                             + "t.title, s.salary, d.dept_name, "
-                            + "CONCAT(m.first_name, ' ', m.last_name) AS manager"
+                            + "m.emp_no AS manager_no, m.first_name AS manager_first, m.last_name AS manager_last "
                             + " FROM employees e "
                             + "JOIN titles t ON t.emp_no = e.emp_no AND t.to_date = '9999-01-01' "
                             + "JOIN salaries s ON s.emp_no = e.emp_no AND s.to_date = '9999-01-01' "
@@ -130,8 +129,14 @@ public class App
                 emp.last_name = rset.getString("last_name");
                 emp.title = rset.getString("title");
                 emp.salary = rset.getInt("salary");
-                emp.dept_name = rset.getString("dept_name");
-                emp.manager = rset.getString("manager");
+                Department dept = new Department();
+                dept.dept_name = rset.getString("dept_name");
+                emp.dept = dept;
+                Employee mgr = new Employee();
+                mgr.emp_no = rset.getInt("manager_no");
+                mgr.first_name = rset.getString("manager_first");
+                mgr.last_name = rset.getString("manager_last");
+                emp.manager = mgr;
                 return emp;
             }
             else
@@ -154,8 +159,8 @@ public class App
                             + "Name:           " + emp.first_name + " " + emp.last_name + "\n"
                             + "Job Title:      " + emp.title + "\n"
                             + "Salary:         " + emp.salary + "\n"
-                            + "Department:     " + emp.dept_name + "\n"
-                            + "Manager:        " + emp.manager + "\n");
+                            + "Department:     " + emp.dept.dept_name + "\n"
+                            + "Manager:        " + emp.manager.emp_no + " " + emp.manager.first_name + " " + emp.manager.last_name + "\n");
         }
     }
 
